@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Heart, ShoppingBag } from 'lucide-react';
-import Header from '../src/components/layout/Header';
+import Header from '../src/components/layout/Header.jsx';
 import ProductSection from '../src/components/modules/ProductSection';
 
 export default function Home() {
