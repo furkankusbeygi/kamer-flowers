@@ -4,9 +4,16 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Search, Menu, ShoppingBag } from 'lucide-react';
 import CartDrawer from '../modules/CartDrawer';
+import { useCart } from '../../context/CartContext';
 
 export default function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
+  // 1. Sepet beyninden (Context'ten) canlı veriyi çekiyoruz
+  const { cartItems } = useCart();
+
+  // 2. Sepetteki toplam ürün adedini hesaplıyoruz
+  const totalItems = cartItems?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   return (
     <>
@@ -15,10 +22,8 @@ export default function Header() {
           
           {/* Sol: Mobil Menü İkonu & Masaüstü Navigasyon Linkleri */}
           <div className="flex items-center gap-8">
-            {/* Sadece mobilde görünen hamburger menü */}
             <Menu className="md:hidden cursor-pointer text-neutral-800 hover:text-rose-500 transition-colors" size={24} />
             
-            {/* Masaüstü Navigasyon (Mobilde gizli, md ve üstü ekranlarda görünür) */}
             <nav className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest text-neutral-500">
               <Link href="/" className="hover:text-rose-500 transition-colors">
                 Anasayfa
@@ -49,10 +54,13 @@ export default function Header() {
               onClick={() => setIsCartOpen(true)}
             >
               <ShoppingBag size={24} className="group-hover:text-rose-500 transition-colors" />
-              {/* Sepet Bildirim Balonu */}
-              <span className="absolute top-0 right-0 bg-rose-500 text-white text-[9px] font-black rounded-full w-4 h-4 flex items-center justify-center shadow-sm">
-                3
-              </span>
+              
+              {/* 3. DİNAMİK SEPET BİLDİRİM BALONU */}
+              {totalItems > 0 && (
+                <span className="absolute top-0 right-0 bg-rose-500 text-white text-[9px] font-black rounded-full w-4 h-4 flex items-center justify-center shadow-sm animate-in zoom-in duration-300">
+                  {totalItems}
+                </span>
+              )}
             </div>
           </div>
 
