@@ -8,16 +8,16 @@ export async function GET() {
   try {
     await connectToDatabase();
 
-    const userExists = await User.findOne({ email: "furkan@kamerflowers.com" });
+    const userExists = await User.findOne({ email: "meryem@kamerflowers.com" });
     if (userExists) {
       return NextResponse.json({ message: "Kral, admin zaten mevcut!" }, { status: 400 });
     }
 
-    const hashedPassword = await bcrypt.hash("furkan123", 10);
+    const hashedPassword = await bcrypt.hash("meryem123", 10);
 
     await User.create({
-      name: "Furkan Kuşbeygi",
-      email: "furkan@kamerflowers.com",
+      name: "Meryem Gazi",
+      email: "meryem@kamerflowers.com",
       password: hashedPassword,
       role: "admin"
     });
